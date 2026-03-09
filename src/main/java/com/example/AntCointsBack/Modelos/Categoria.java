@@ -1,9 +1,13 @@
 package com.example.AntCointsBack.Modelos;
 
+import com.example.AntCointsBack.Modelos.utils.Estados;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,8 +24,16 @@ public class Categoria {
     private String descripcion;
     private double presupuestoLimite;
     private double gastoActual;
-    private String estado;
+    private Estados estado;
     private String tipo;
+
+
+    //relacion con tabla gasto
+    //categoria asociado a 1 solo gasto
+
+    @ManyToOne
+    @JoinColumn(name = "fk_gasto", referencedColumnName = "id")
+    private Gasto gasto;
 
 
     public Categoria() {
@@ -108,12 +120,12 @@ public class Categoria {
     }
 
 
-    public String getEstado() {
+    public Estados getEstado() {
         return estado;
     }
 
 
-    public void setEstado(String estado) {
+    public void setEstado(Estados estado) {
         this.estado = estado;
     }
 

@@ -1,9 +1,16 @@
 package com.example.AntCointsBack.Modelos;
 
+import java.util.List;
+
+import com.example.AntCointsBack.Modelos.utils.Estados;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,8 +27,30 @@ public class Gasto {
     private String categoria;
     private String metodoPago;
     private boolean recurrente;
-    private String estado;
+    private Estados estado;
     private Integer idUsuario;
+
+
+    //relacion con tabla usuario 
+    // 1 gasto asociado a 1 solo gasto
+
+    @ManyToOne
+    @JoinColumn(name = "fk_usuario", referencedColumnName = "id")
+    private Usuario usuario; // relacion entre tablas
+
+    //creando la relacion con la tabla Categoria
+    // 1 gasto muchas categorias 
+
+    @OneToMany(mappedBy = "gasto")
+    private List<Categoria> categorias;
+
+    // creando la relacion con la tabla comercio
+    // 1 gasto muchos comercios 
+
+    @OneToMany(mappedBy = "gasto")
+    private List<Comercio> comercios;
+    
+
 
     public Gasto() {
 
@@ -91,11 +120,11 @@ public class Gasto {
         this.recurrente = recurrente;
     }
 
-    public String getEstado() {
+    public Estados getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estados estado) {
         this.estado = estado;
     }
 
