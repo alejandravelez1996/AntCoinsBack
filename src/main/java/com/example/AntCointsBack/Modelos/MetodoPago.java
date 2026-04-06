@@ -1,89 +1,66 @@
 package com.example.AntCointsBack.Modelos;
 
 import com.example.AntCointsBack.Modelos.utils.Estados;
+import com.example.AntCointsBack.Modelos.utils.MetodoPagoEnum;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="metodo_pago")
+@Table(name = "metodo_pago")
 public class MetodoPago {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nombre;
-    private String franquicia;
-    private Estados estado;
+
+    @Enumerated(EnumType.STRING)
+    private MetodoPagoEnum tipo;
+
     private String descripcion;
 
-    //relacion con tabla usuario 
-    // 1 usuario asociado a muchos metodos de pago
+    @Enumerated(EnumType.STRING)
+    private Estados estado;
+
+    // RELACION: muchos metodos → 1 usuario
     @ManyToOne
-    @JoinColumn(name = "fk_usuario", referencedColumnName = "id")
+    @JoinColumn(name = "fk_usuario")
     private Usuario usuario;
-    
+
+    public MetodoPago() {}
 
 
-    public MetodoPago() {
+    public Integer getId() { 
+        return id; 
+    }
+    public void setId(Integer id) { 
+        this.id = id; 
     }
 
-
-    public Integer getId() {
-        return id;
+    public MetodoPagoEnum getTipo() { 
+        return tipo; 
+    }
+    public void setTipo(MetodoPagoEnum tipo) { 
+        this.tipo = tipo; 
     }
 
-
-    public void setId(Integer id) {
-        this.id = id;
+    public String getDescripcion() { 
+        return descripcion; 
+    }
+    public void setDescripcion(String descripcion) { 
+        this.descripcion = descripcion; 
     }
 
-
-    public String getNombre() {
-        return nombre;
+    public Estados getEstado() { 
+        return estado; 
+    }
+    public void setEstado(Estados estado) { 
+        this.estado = estado; 
     }
 
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public Usuario getUsuario() { 
+        return usuario; 
     }
-
-
-    public String getFranquicia() {
-        return franquicia;
+    public void setUsuario(Usuario usuario) { 
+        this.usuario = usuario; 
     }
-
-
-    public void setFranquicia(String franquicia) {
-        this.franquicia = franquicia;
-    }
-
-
-    public Estados getEstado() {
-        return estado;
-    }
-
-
-    public void setEstado(Estados estado) {
-        this.estado = estado;
-    }
-
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    
-
-    
 }

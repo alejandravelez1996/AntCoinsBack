@@ -1,141 +1,120 @@
 package com.example.AntCointsBack.Modelos;
 
-import java.util.List;
-
 import com.example.AntCointsBack.Modelos.utils.Estados;
+import com.example.AntCointsBack.Modelos.utils.TipoGasto;
+import com.example.AntCointsBack.Modelos.utils.MetodoPagoEnum;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name="gasto")
+@Table(name = "gasto")
 public class Gasto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String descripcion;
-    private java.time.LocalDate fecha;
-    private double valor;
-    private String icono;
-    private String categoria;
-    private String metodoPago;
-    private boolean recurrente;
+    private double monto;
+    private LocalDate fecha;
+
+    @Enumerated(EnumType.STRING)
     private Estados estado;
-    private Integer idUsuario;
 
+    @Enumerated(EnumType.STRING)
+    private TipoGasto tipo;
 
-    //relacion con tabla usuario 
-    // 1 gasto asociado a 1 solo gasto
+    @Enumerated(EnumType.STRING)
+    private MetodoPagoEnum metodoPago;
 
+    //RELACION: muchos gastos → 1 usuario
     @ManyToOne
-    @JoinColumn(name = "fk_usuario", referencedColumnName = "id")
-    private Usuario usuario; // relacion entre tablas
+    @JoinColumn(name = "fk_usuario")
+    private Usuario usuario;
 
-    //creando la relacion con la tabla Categoria
-    // 1 gasto muchas categorias 
+    // RELACION: muchos gastos → 1 categoria
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
-    @OneToMany(mappedBy = "gasto")
-    private List<Categoria> categorias;
+    // RELACION: muchos gastos → 1 comercio
+    @ManyToOne
+    @JoinColumn(name = "comercio_id")
+    private Comercio comercio;
 
-    // creando la relacion con la tabla comercio
-    // 1 gasto muchos comercios 
+    public Gasto() {}
 
-    @OneToMany(mappedBy = "gasto")
-    private List<Comercio> comercios;
-    
+    // GETTERS Y SETTERS
 
-
-    public Gasto() {
-
+    public Integer getId(){ 
+        return id; 
     }
 
-    public Integer getId() {
-        return id;
+    public void setId(Integer id) { 
+        this.id = id; 
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getDescripcion() { 
+        return descripcion; 
+    }
+    public void setDescripcion(String descripcion) { 
+        this.descripcion = descripcion; 
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public double getMonto() { 
+        return monto; 
+    }
+    public void setMonto(double monto) { 
+        this.monto = monto; 
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public LocalDate getFecha() { 
+        return fecha; 
+    }
+    public void setFecha(LocalDate fecha) { 
+        this.fecha = fecha; 
     }
 
-    public java.time.LocalDate getFecha() {
-        return fecha;
+    public Estados getEstado() { 
+        return estado; 
+    }
+    public void setEstado(Estados estado) { 
+        this.estado = estado; 
     }
 
-    public void setFecha(java.time.LocalDate fecha) {
-        this.fecha = fecha;
+    public TipoGasto getTipo() { 
+        return tipo; 
+    }
+    public void setTipo(TipoGasto tipo) { 
+        this.tipo = tipo; 
     }
 
-    public double getValor() {
-        return valor;
+    public MetodoPagoEnum getMetodoPago() { 
+        return metodoPago; 
+    }
+    public void setMetodoPago(MetodoPagoEnum metodoPago) { 
+        this.metodoPago = metodoPago; 
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public Usuario getUsuario() { 
+        return usuario; 
+    }
+    public void setUsuario(Usuario usuario) { 
+        this.usuario = usuario; 
     }
 
-    public String getIcono() {
-        return icono;
+    public Categoria getCategoria() { 
+        return categoria; 
+    }
+    public void setCategoria(Categoria categoria) { 
+        this.categoria = categoria; 
     }
 
-    public void setIcono(String icono) {
-        this.icono = icono;
+    public Comercio getComercio() { 
+        return comercio; 
     }
-
-    public String getCategoria() {
-        return categoria;
+    public void setComercio(Comercio comercio) { 
+        this.comercio = comercio; 
     }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getMetodoPago() {
-        return metodoPago;
-    }
-
-    public void setMetodoPago(String metodoPago) {
-        this.metodoPago = metodoPago;
-    }
-
-    public boolean isRecurrente() {
-        return recurrente;
-    }
-
-    public void setRecurrente(boolean recurrente) {
-        this.recurrente = recurrente;
-    }
-
-    public Estados getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estados estado) {
-        this.estado = estado;
-    }
-
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-    
-
-    
 }
